@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life Simulator - Unemployed Adult</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        <!-- Header -->
+        <header>
+            <h1>Life Simulator</h1>
+            <div id="stats">
+                <div>Money: $<span id="money">50</span></div>
+                <div>Mood: <span id="mood">Neutral</span></div>
+                <div>Day: <span id="day">1</span></div>
+            </div>
+            <button id="scrapbook-btn">📖 Scrapbook</button>
+        </header>
+
+        <!-- Main game area -->
+        <div id="main-content">
+            <!-- Current scene -->
+            <div id="scene-container">
+                <div id="scene-image"></div>
+                <div id="characters-container"></div>
+                <div id="scene-description"></div>
+            </div>
+
+            <!-- Action buttons -->
+            <div id="action-panel">
+                <button id="explore-btn">🚶 Explore New Place</button>
+                <button id="rest-btn">😴 Rest (Advance Day)</button>
+            </div>
+        </div>
+
+        <!-- Character interaction modal -->
+        <div id="character-modal" class="modal hidden">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div id="character-info">
+                    <img id="character-image" src="" alt="Character">
+                    <h3 id="character-name"></h3>
+                    <p id="character-description"></p>
+                </div>
+                <div id="interaction-choices"></div>
+            </div>
+        </div>
+
+        <!-- Scrapbook modal -->
+        <div id="scrapbook-modal" class="modal hidden">
+            <div class="modal-content large">
+                <span class="close">&times;</span>
+                <h2>📖 Your Life Scrapbook</h2>
+                <div id="scrapbook-content"></div>
+            </div>
+        </div>
+
+        <!-- Loading indicator -->
+        <div id="loading" class="hidden">
+            <div class="spinner"></div>
+            <p>Generating your life experience...</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"4c6229722a6346bc8eb5cb0e5eae5d41","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
+
