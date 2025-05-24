@@ -284,11 +284,16 @@ class LifeSimulator {
                 timestamp: new Date().toISOString()
             });
 
-            // Create memory for scrapbook
+            // Create memory for scrapbook with character and conversation details
             await this.addMemory(
                 `${character.name} at ${this.currentScene.location}`,
                 outcome.memory,
-                this.currentScene.image
+                this.currentScene.image,
+                {
+                    character: character,
+                    choice: choice,
+                    response: outcome.dialogue
+                }
             );
 
             // Show outcome
@@ -309,14 +314,16 @@ class LifeSimulator {
         }
     }
 
-    async addMemory(title, description, image) {
+    async addMemory(title, description, image, conversationData = null) {
         const memory = {
             id: Date.now(),
             title: title,
             description: description,
             image: image,
             day: this.gameState.day,
-            date: new Date().toLocaleDateString()
+            date: new Date().toLocaleDateString(),
+            mood: this.gameState.mood,
+            conversation: conversationData
         };
 
         this.gameState.memories.push(memory);
@@ -354,16 +361,33 @@ class LifeSimulator {
         content.innerHTML = '';
 
         if (this.gameState.memories.length === 0) {
-            content.innerHTML = '<p>No memories yet. Start exploring and making decisions!</p>';
+            content.innerHTML = '<div style="text-align: center; padding: 40px; color: #666;"><h3>📖 Your scrapbook is empty</h3><p>Start exploring and making decisions to create memories!</p></div>';
         } else {
             this.gameState.memories.slice().reverse().forEach(memory => {
                 const card = document.createElement('div');
                 card.className = 'memory-card';
+                
+                let conversationHtml = '';
+                if (memory.conversation) {
+                    conversationHtml = `
+                        <div class="conversation-details">
+                            <div class="conversation-choice">💬 You said: "${memory.conversation.choice}"</div>
+                            <div class="conversation-response">↳ ${memory.conversation.character.name}: "${memory.conversation.response}"</div>
+                        </div>
+                    `;
+                }
+                
                 card.innerHTML = `
-                    <div class="memory-image" style="background-image: url(${memory.image})"></div>
+                    <div class="memory-image" style="background-image: url(${memory.image})">
+                        ${memory.conversation ? `<div class="character-portrait" style="background-image: url(${memory.conversation.character.image})" title="${memory.conversation.character.name}"></div>` : ''}
+                    </div>
                     <div class="memory-title">${memory.title}</div>
                     <div class="memory-description">${memory.description}</div>
-                    <div class="memory-date">Day ${memory.day} - ${memory.date}</div>
+                    ${conversationHtml}
+                    <div class="memory-date">
+                        <span>Day ${memory.day} - ${memory.date}</span>
+                        <span class="mood-indicator">${memory.mood}</span>
+                    </div>
                 `;
                 content.appendChild(card);
             });
@@ -377,4 +401,3 @@ class LifeSimulator {
 document.addEventListener('DOMContentLoaded', () => {
     new LifeSimulator();
 });
-
